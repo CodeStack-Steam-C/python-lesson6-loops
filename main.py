@@ -1,9 +1,10 @@
-let tempPizza: Sprite;
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function on_on_overlap(sprite: Sprite, otherSprite: Sprite) {
+def on_on_overlap(sprite, otherSprite):
     otherSprite.destroy()
-    info.changeScoreBy(1)
-})
-let mySprite = sprites.create(img`
+    info.change_score_by(1)
+sprites.on_overlap(SpriteKind.player, SpriteKind.food, on_on_overlap)
+
+
+mySprite = sprites.create(img("""
         . . . . . . . . . . . . . . . . 
             . . . . . . . 5 . 5 . . . . . . 
             . . . . . . f 5 5 5 f . . . . . 
@@ -20,13 +21,15 @@ let mySprite = sprites.create(img`
             . . . . . . f f f d 5 3 f . . . 
             . . . . . f f f 3 3 f f . . . . 
             . . . . . f f f f f f f . . . .
-    `, SpriteKind.Player)
-scene.setBackgroundColor(0)
-controller.moveSprite(mySprite, 100, 100)
-let pizzas : Sprite[] = []
-let i = 0
-while (i < 10) {
-    tempPizza = sprites.create(img`
+    """),
+    SpriteKind.player)
+scene.set_background_color(0)
+controller.move_sprite(mySprite, 100, 100)
+
+pizzas: List[Sprite] = []
+i = 0
+while i < 10:
+    tempPizza = sprites.create(img("""
         . . . . . . b b b b . . . . . . 
             . . . . . . b 4 4 4 b . . . . . 
             . . . . . . b b 4 4 4 b . . . . 
@@ -43,17 +46,14 @@ while (i < 10) {
             b 5 5 5 5 d d 4 4 4 4 . . . . . 
             4 d d d 4 4 4 . . . . . . . . . 
             4 4 4 4 . . . . . . . . . . . .
-    `, SpriteKind.Food)
-    tempPizza.setPosition(-200, -200)
-    pizzas.push(tempPizza)
+    """),
+    SpriteKind.food)
+    tempPizza.set_position(-200,-200)
+    pizzas.append(tempPizza)
     i += 1
-}
-for (let pizza of pizzas) {
-    pizza.setPosition(randint(10, 160), randint(0, 120))
+for pizza in pizzas:
+    pizza.set_position(randint(10, 160), randint(0, 120))
     pause(3000)
     pizza.destroy()
-    if (info.score() == 1) {
-        game.over(true, game.winEffect)
-    }
-    
-}
+    if info.score() == 1:
+        game.over(True, game.win_effect)
